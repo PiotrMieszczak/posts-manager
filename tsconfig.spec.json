@@ -1,11 +1,14 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "esModuleInterop": true,
     "outDir": "./out-tsc/spec",
-    "types": ["jest"]
+    "types": [
+      "jest"
+    ]
   },
-  "files": [
-    "src/setup-jest.ts", "src/polyfills.ts"],
-  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
 }

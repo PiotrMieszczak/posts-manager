@@ -10,7 +10,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "jest",
     "commit": "npx git-cz",
     "prepare": "husky install",
     "lint": "eslint --fix",
@@ -30,11 +30,6 @@
       "pre-commit": "lint-staged",
       "pre-push": "npm run build && npm run test"
     }
-  },
-  "jest": {
-    "preset": "jest-preset-angular",
-    "setupFilesAfterEnv": ["<rootDir>/setup-jest.ts"],
-    "globalSetup": "jest-preset-angular/global-setup"
   },
   "dependencies": {
     "@angular/animations": "~13.0.0",
