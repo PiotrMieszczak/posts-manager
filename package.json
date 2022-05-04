@@ -13,8 +13,8 @@
     "test": "ng test",
     "commit": "npx git-cz",
     "prepare": "husky install",
-    "lint": "eslint --fix './src/**/*.{ts}'",
-    "prettier:check": "prettier --config .prettierrc --check \"src/**/*.{ts,css,html}\""
+    "lint": "eslint --fix",
+    "prettier:check": "prettier --config .prettierrc --check"
   },
   "config": {
     "commitizen": {
@@ -22,14 +22,19 @@
     }
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.css": "npm run prettier:check"
+    "src/**/*.{ts,js}": "npm run lint",
+    "src/**/*.{css,html}": "npm run prettier:check"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
       "pre-push": "npm run build && npm run test"
     }
+  },
+  "jest": {
+    "preset": "jest-preset-angular",
+    "setupFilesAfterEnv": ["<rootDir>/setup-jest.ts"],
+    "globalSetup": "jest-preset-angular/global-setup"
   },
   "dependencies": {
     "@angular/animations": "~13.0.0",
@@ -56,7 +61,7 @@
     "@angular/cli": "~13.0.4",
     "@angular/compiler-cli": "~13.0.0",
     "@ngneat/spectator": "^10.0.1",
-    "@types/jasmine": "~3.10.0",
+    "@types/jest": "^27.5.0",
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "5.17.0",
     "@typescript-eslint/parser": "5.17.0",
@@ -65,12 +70,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "git-cz": "^4.8.0",
     "husky": "^7.0.4",
-    "jasmine-core": "~3.10.0",
-    "karma": "~6.3.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.0.3",
-    "karma-jasmine": "~4.0.0",
-    "karma-jasmine-html-reporter": "~1.7.0",
+    "jest": "^27.5.1",
+    "jest-preset-angular": "^11.1.2",
     "lint-staged": "^12.4.1",
     "prettier": "^2.6.2",
     "pretty-quick": "^3.1.3",
