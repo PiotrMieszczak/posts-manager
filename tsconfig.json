@@ -1,5 +1,9 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-prettier"
+  ],
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
