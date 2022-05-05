@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { UiQuery } from '../state/ui/ui.query';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sidenav',
