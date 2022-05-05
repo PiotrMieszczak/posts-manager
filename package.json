@@ -15,7 +15,7 @@
     "commit": "npx git-cz",
     "prepare": "husky install",
     "lint": "eslint --fix",
-    "prettier:check": "prettier --config .prettierrc --check"
+    "prettier:check": "prettier --config .prettierrc --write  --check"
   },
   "config": {
     "commitizen": {
