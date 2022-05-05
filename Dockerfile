@@ -11,8 +11,8 @@ RUN ./node_modules/.bin/ng build --prod
 
 FROM nginx:latest
 
+COPY default.conf.template /etc/nginx/conf.d/default.conf.template
+COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/dist/posts-manager /usr/share/nginx/html
-COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
-CMD nginx -g "daemon off;"
+CMD /bin/bash -c "envsubst '\$PORT' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf" && nginx -g 'daemon off;'
