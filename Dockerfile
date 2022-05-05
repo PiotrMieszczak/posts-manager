@@ -1,18 +1,18 @@
-FROM node:16.13.0-alpine as builder
+FROM node:16-alpine as builder
+WORKDIR /app
 
-ARG WORK_DIR=/frontend
-ENV PATH ${WORK_DIR}/node_modules/.bin:$PATH
+COPY package*.json .
 
-RUN mkdir ${WORK_DIR}
-WORKDIR ${WORK_DIR}
+RUN npm i @angular/cli
+RUN npm ci
 
-COPY package.json ${WORK_DIR}
-COPY package-lock.json ${WORK_DIR}
+COPY . .
+RUN ./node_modules/.bin/ng build --prod
 
-RUN npm install @angular/cli@13.3.4
-RUN npm install
+FROM nginx:latest
 
-COPY . ${WORK_DIR}
+COPY --from=builder /app/dist/posts-manager /usr/share/nginx/html
+COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 4200
-CMD ng serve --host 0.0.0.0
+EXPOSE 80
+CMD nginx -g "daemon off;"

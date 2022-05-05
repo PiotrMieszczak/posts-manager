@@ -89,7 +89,7 @@
           "options": {
             "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
-        },
+        }
       }
     }
   },
