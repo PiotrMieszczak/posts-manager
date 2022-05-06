@@ -38,7 +38,10 @@
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
     "@datorama/akita": "^7.1.1",
+    "@datorama/akita-ng-entity-service": "^7.0.0",
     "@datorama/akita-ng-router-store": "^7.0.0",
+    "@datorama/akita-ngdevtools": "^7.0.0",
+    "@ngneat/effects-ng": "^2.0.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
