@@ -12,6 +12,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { ListComponent } from './modules/posts-list/list/list.component';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { HttpClientModule } from '@angular/common/http';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [AppComponent],

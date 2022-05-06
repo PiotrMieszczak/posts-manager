@@ -1,1 +1,38 @@
-<p>list works!</p>
+<div class="container">
+  <!--  <div class="content__quickSearch">-->
+  <!--    <mat-form-field>-->
+  <!--      <input matInput (keyup)="quickSearch($any($event.target).value)" placeholder="Quick Search">-->
+  <!--    </mat-form-field>-->
+  <!--    <div>-->
+  <div class="container__content">
+    <div class="content__table">
+      <cdk-virtual-scroll-viewport tvsItemSize="48">
+        <table mat-table [dataSource]="rowData" matSort class="table">
+          <!-- Position Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
+            <td mat-cell *matCellDef="let post">{{ post.id }}.</td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <td mat-cell *matCellDef="let post">{{ post.title }}</td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="body">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Body</th>
+            <td mat-cell *matCellDef="let post">{{ post.body }}</td>
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </cdk-virtual-scroll-viewport>
+    </div>
+  </div>
+</div>
