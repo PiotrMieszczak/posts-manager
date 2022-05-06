@@ -1,7 +1,7 @@
 import { Spectator, createComponentFactory } from '@ngneat/spectator/jest';
 import { SidenavComponent } from './sidenav.component';
 
-describe('ButtonComponent', () => {
+describe('SidenavComponent', () => {
   let spectator: Spectator<SidenavComponent>;
 
   const createComponent = createComponentFactory(SidenavComponent);

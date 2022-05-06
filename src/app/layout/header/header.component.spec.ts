@@ -4,7 +4,7 @@ import { UiQuery } from '../state/ui/ui.query';
 import { UiService } from '../state/ui/ui.service';
 import { HeaderModule } from './header.module';
 
-describe('ButtonComponent', () => {
+describe('HeaderComponent', () => {
   let spectator: Spectator<HeaderComponent>;
   let uiQuery: UiQuery;
   let uiService: UiService;
