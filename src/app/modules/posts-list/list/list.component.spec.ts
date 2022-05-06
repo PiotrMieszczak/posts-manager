@@ -1,24 +1,28 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ListComponent } from './list.component';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { PostsListService } from '../state/posts-list.service';
+import { PostsListQuery } from '../state/posts-list.query';
+import { PostsListModule } from '../posts-list.module';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ListComponent', () => {
-  let component: ListComponent;
-  let fixture: ComponentFixture<ListComponent>;
+  let spectator: Spectator<ListComponent>;
+  let postListQuery: PostsListQuery;
+  let postsListService: PostsListService;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ListComponent],
-    }).compileComponents();
+  const createComponent = createComponentFactory({
+    component: ListComponent,
+    providers: [PostsListQuery, PostsListService],
+    imports: [PostsListModule, HttpClientTestingModule],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    postListQuery = spectator.inject(PostsListQuery);
+    postsListService = spectator.inject(PostsListService);
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeDefined();
   });
 });
