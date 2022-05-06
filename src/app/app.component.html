@@ -1,7 +1,6 @@
 <app-header></app-header>
 <mat-sidenav-container>
   <mat-sidenav mode="side" [opened]="isMenuOpen$ | async">
-    {{ isMenuOpen$ | async }}
     <app-sidenav></app-sidenav>
   </mat-sidenav>
   <mat-sidenav-content>Main content</mat-sidenav-content>

@@ -1,18 +1,20 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { Spectator, createComponentFactory } from '@ngneat/spectator/jest';
+import { AppModule } from './app.module';
 
-describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [AppComponent],
-    }).compileComponents();
+describe('ButtonComponent', () => {
+  let spectator: Spectator<AppComponent>;
+
+  const createComponent = createComponentFactory({
+    component: AppComponent,
+    imports: [AppModule],
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  beforeEach(() => {
+    spectator = createComponent();
+  });
+
+  it('should create', () => {
+    expect(spectator.component).toBeDefined();
   });
 });
