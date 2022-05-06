@@ -4,4 +4,5 @@ module.exports = {
   collectCoverage: true,
   coverageReporters: ['html'],
   coverageDirectory: 'coverage/post-manager',
+  transformIgnorePatterns: ['/node_modules/?!@angular'],
 };

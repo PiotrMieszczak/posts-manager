@@ -11,6 +11,6 @@ export class AppComponent {
   isMenuOpen$: Observable<boolean>;
 
   constructor(private readonly uiQuery: UiQuery) {
-    this.isMenuOpen$ = this.uiQuery.menuState$;
+    this.isMenuOpen$ = this.uiQuery.isMenuOpen$;
   }
 }
