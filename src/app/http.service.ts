@@ -28,7 +28,7 @@ export class HttpService {
     return this.http.delete(environment.apiUrl + url);
   }
 
-  public post(url: string, payload: Post): Observable<any> {
+  public post(url: string, payload: object): Observable<any> {
     return this.http.post(
       environment.apiUrl + url,
       JSON.stringify(payload),

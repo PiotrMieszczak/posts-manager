@@ -19,5 +19,5 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button color="primary" [mat-dialog-close]="true">Save</button>
+  <button mat-button color="primary" (click)="savePost()">Save</button>
 </mat-dialog-actions>

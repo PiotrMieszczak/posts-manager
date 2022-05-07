@@ -1,4 +1,4 @@
 export const enum DIALOG_ACTION {
-  ADD = 'ADD',
-  EDIT = 'EDIT',
+  ADD = 'Add',
+  EDIT = 'Edit',
 }

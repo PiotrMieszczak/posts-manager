@@ -70,11 +70,17 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
     const dialogRef = this._dialog.open(PostDialogComponent, {
       ...BASE_DIALOG_CONFIG,
     });
+
     dialogRef
       .afterClosed()
-      .pipe(filter((res) => !!res))
+      .pipe(
+        filter((res) => !!res),
+        switchMap((post: Post) => {
+          return this._postsListService.create(post);
+        })
+      )
       .subscribe(() => {
-        // TODO save to db, refresh
+        this.getAllPosts();
       });
   }
 
@@ -83,11 +89,17 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
       ...BASE_DIALOG_CONFIG,
       data: { postId: post.id },
     });
+
     dialogRef
       .afterClosed()
-      .pipe(filter((res) => !!res))
+      .pipe(
+        filter((res) => !!res),
+        switchMap((post: Post) => {
+          return this._postsListService.update(post);
+        })
+      )
       .subscribe(() => {
-        // TODO save to db, refresh
+        this.getAllPosts();
       });
   }
 

@@ -34,7 +34,7 @@ export class PostsListService {
     );
   }
 
-  create(post: Post): Observable<unknown> {
+  create(post: Pick<Post, 'title' | 'body'>): Observable<unknown> {
     return this._http.post(`/posts`, post);
   }
 
@@ -42,8 +42,8 @@ export class PostsListService {
     return this._http.delete(`/posts/${postId}`);
   }
 
-  update(postId: string, post: Post): Observable<unknown> {
-    return this._http.patch(`/posts/${postId}`, post);
+  update(post: Post): Observable<unknown> {
+    return this._http.patch(`/posts/${post.id}`, post);
   }
 
   saveFilterValue(filterQuery: string): void {
