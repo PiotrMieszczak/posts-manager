@@ -1,5 +1,5 @@
 import { Spectator, createComponentFactory } from '@ngneat/spectator/jest';
-import { HeaderComponent } from './header.component';
+import { HeaderComponent } from '../../modules/posts-list/components/header.component';
 import { UiQuery } from '../state/ui/ui.query';
 import { UiService } from '../state/ui/ui.service';
 import { HeaderModule } from './header.module';

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { IPostListSort, PostsListStore } from './posts-list.store';
 import { filter, map, Observable, tap } from 'rxjs';
-import { IPost, Post } from '../../../classes';
-import { HttpService } from '../../../http.service';
-import { assertProperties } from '../../../utils/utils';
+import { IPost, Post } from '../../../../classes';
+import { HttpService } from '../../../../http.service';
+import { assertProperties } from '../../../../utils/utils';
 
 const POST_PROPS = ['userId', 'id', 'title', 'body'];
 
@@ -28,7 +28,10 @@ export class PostsListService {
   }
 
   getOne(postId: string): Observable<unknown> {
-    return this._http.get(`/posts/${postId}`);
+    return this._http.get(`/posts/${postId}`).pipe(
+      filter((post) => assertProperties(POST_PROPS, post)),
+      map((post: IPost) => this.store.update({ editedPost: new Post(post) }))
+    );
   }
 
   create(post: Post): Observable<unknown> {
@@ -37,6 +40,10 @@ export class PostsListService {
 
   delete(postId: string): Observable<unknown> {
     return this._http.delete(`/posts/${postId}`);
+  }
+
+  update(postId: string, post: Post): Observable<unknown> {
+    return this._http.patch(`/posts/${postId}`, post);
   }
 
   saveFilterValue(filterQuery: string): void {

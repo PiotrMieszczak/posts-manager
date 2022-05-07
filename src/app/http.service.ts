@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
+import { Post } from './classes';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -15,15 +16,19 @@ export class HttpService {
     return this.http.get(environment.apiUrl + url);
   }
 
-  public patch(url: string, payload: string): Observable<any> {
-    return this.http.patch(environment.apiUrl + url, payload, httpOptions);
+  public patch(url: string, payload: Post): Observable<any> {
+    return this.http.patch(
+      environment.apiUrl + url,
+      JSON.stringify(payload),
+      httpOptions
+    );
   }
 
   public delete(url: string): Observable<any> {
     return this.http.delete(environment.apiUrl + url);
   }
 
-  public post(url: string, payload: object): Observable<any> {
+  public post(url: string, payload: Post): Observable<any> {
     return this.http.post(
       environment.apiUrl + url,
       JSON.stringify(payload),

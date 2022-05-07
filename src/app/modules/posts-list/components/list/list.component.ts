@@ -7,18 +7,26 @@ import {
 } from '@angular/core';
 import { PostsListService } from '../state/posts-list.service';
 import { PostsListQuery } from '../state/posts-list.query';
-import { Post } from '../../../classes';
+import { Post } from '../../../../classes';
 import { MatSort, Sort } from '@angular/material/sort';
 import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 import {
   debounceTime,
+  filter,
   startWith,
   Subject,
   switchMap,
   takeUntil,
-  throttleTime,
 } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { PostDialogComponent } from '../../dialogs/post-dialog/post-dialog.component';
+
+const BASE_DIALOG_CONFIG = {
+  minWidth: '30vw',
+  minHeight: '30vh',
+  disableClose: true,
+};
 
 @Component({
   selector: 'app-list',
@@ -37,13 +45,15 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private readonly _postsListService: PostsListService,
     private readonly _postsLisQuery: PostsListQuery,
-    private readonly _fb: FormBuilder
+    private readonly _fb: FormBuilder,
+    private readonly _dialog: MatDialog
   ) {
     this.quickSearch = this.buildForm();
   }
 
   ngOnInit(): void {
     this.getAllPosts();
+    this.startSearchSubscribe();
   }
 
   ngAfterViewInit(): void {
@@ -56,11 +66,34 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroy$.complete();
   }
 
-  addNewPost(): void {}
+  addNewPost(): void {
+    const dialogRef = this._dialog.open(PostDialogComponent, {
+      ...BASE_DIALOG_CONFIG,
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter((res) => !!res))
+      .subscribe(() => {
+        // TODO save to db, refresh
+      });
+  }
 
-  editPost(post: Post): void {}
+  editPost(post: Post): void {
+    const dialogRef = this._dialog.open(PostDialogComponent, {
+      ...BASE_DIALOG_CONFIG,
+      data: { postId: post.id },
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter((res) => !!res))
+      .subscribe(() => {
+        // TODO save to db, refresh
+      });
+  }
 
-  deletePost(post: Post): void {}
+  deletePost(post: Post): void {
+    // TO DO DELETE DIALOG
+  }
 
   private onRowSort(): void {
     this.rowData.sort?.sortChange
@@ -72,7 +105,6 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private getAllPosts(): void {
     this._postsListService.getAll().pipe(takeUntil(this.destroy$)).subscribe();
-    this.startSearchSubscribe();
   }
 
   private buildForm(): FormGroup {

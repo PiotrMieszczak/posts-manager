@@ -2,11 +2,11 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { PostsListService } from './posts-list.service';
 import { PostsListStore } from './posts-list.store';
-import { PostsListModule } from '../posts-list.module';
+import { PostsListModule } from '../../posts-list.module';
 
 const mockPostData = [
   {

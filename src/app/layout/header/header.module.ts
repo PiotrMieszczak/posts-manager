@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header.component';
+import { HeaderComponent } from '../../modules/posts-list/components/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({

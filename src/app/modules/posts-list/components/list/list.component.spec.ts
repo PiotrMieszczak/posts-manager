@@ -2,7 +2,7 @@ import { ListComponent } from './list.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PostsListService } from '../state/posts-list.service';
 import { PostsListQuery } from '../state/posts-list.query';
-import { PostsListModule } from '../posts-list.module';
+import { PostsListModule } from '../../posts-list.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PostsListStore } from '../state/posts-list.store';
 
