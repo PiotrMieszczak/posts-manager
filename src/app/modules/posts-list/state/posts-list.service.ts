@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IPostListSort, PostsListStore } from './posts-list.store';
-import { map, Observable, tap } from 'rxjs';
+import { filter, map, Observable, tap } from 'rxjs';
 import { IPost, Post } from '../../../classes';
 import { HttpService } from '../../../http.service';
 import { assertProperties } from '../../../utils/utils';
@@ -16,7 +16,7 @@ export class PostsListService {
 
   getAll(): Observable<unknown> {
     return this._http.get('/posts').pipe(
-      tap((posts) =>
+      filter((posts) =>
         posts.every((post: Record<string, unknown>) =>
           assertProperties(POST_PROPS, post)
         )

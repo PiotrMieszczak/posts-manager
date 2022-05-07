@@ -1,5 +1,3 @@
-import { assign } from '../utils/utils';
-
 export class Post {
   userId: number | null;
   id: number | null;

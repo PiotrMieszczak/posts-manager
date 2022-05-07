@@ -5,8 +5,7 @@ import { UiStore } from './ui.store';
 export class UiService {
   constructor(private uiStore: UiStore) {}
 
-  updateMenuState(state: boolean) {
-    console.log('updateMenuState', state);
+  updateMenuState(state: boolean): void {
     this.uiStore.update({ ui: { isMenuOpen: state } });
   }
 }
