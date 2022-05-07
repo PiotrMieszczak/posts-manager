@@ -1,42 +1,57 @@
 <div class="container">
-  <div class="content__quickSearch">
+  <div class="container__quickSearch">
     <form [formGroup]="quickSearch">
       <mat-form-field>
         <input matInput formControlName="searchControl" placeholder="Search" />
       </mat-form-field>
     </form>
-    <div>
-      <div class="container__content">
-        <div class="content__table">
-          <cdk-virtual-scroll-viewport tvsItemSize="48">
-            <table mat-table [dataSource]="rowData" matSort class="table">
-              <!-- Position Column -->
-              <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
-                <td mat-cell *matCellDef="let post">{{ post.id }}.</td>
-              </ng-container>
+    <button mat-raised-button (click)="addNewPost()">Add new post</button>
+  </div>
+  <div class="container__content">
+    <div class="content__table">
+      <cdk-virtual-scroll-viewport tvsItemSize="48">
+        <table mat-table [dataSource]="rowData" matSort class="table">
+          <!-- Position Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
+            <td mat-cell *matCellDef="let post">{{ post.id }}.</td>
+          </ng-container>
 
-              <!-- Name Column -->
-              <ng-container matColumnDef="title">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-                <td mat-cell *matCellDef="let post">{{ post.title }}</td>
-              </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <td mat-cell *matCellDef="let post">{{ post.title }}</td>
+          </ng-container>
 
-              <!-- Weight Column -->
-              <ng-container matColumnDef="body">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Body</th>
-                <td mat-cell *matCellDef="let post">{{ post.body }}</td>
-              </ng-container>
+          <!-- Weight Column -->
+          <ng-container matColumnDef="body">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Body</th>
+            <td mat-cell *matCellDef="let post">{{ post.body }}</td>
+          </ng-container>
 
-              <tr
-                mat-header-row
-                *matHeaderRowDef="displayedColumns; sticky: true"
-              ></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-            </table>
-          </cdk-virtual-scroll-viewport>
-        </div>
-      </div>
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let post">
+              <div style="display: flex">
+                <button mat-icon-button color="basic" (click)="editPost(post)">
+                  <mat-icon aria-label="Edit post icon">edit</mat-icon>
+                </button>
+
+                <button mat-icon-button color="warn" (click)="deletePost(post)">
+                  <mat-icon aria-label="Delete post icon">delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </cdk-virtual-scroll-viewport>
     </div>
   </div>
 </div>

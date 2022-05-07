@@ -24,16 +24,4 @@ describe('HeaderComponent', () => {
   it('should create', () => {
     expect(spectator.component).toBeDefined();
   });
-
-  describe('Menu interaction', () => {
-    it('should toggle menu on button click', () => {
-      const updateSpy = jest.spyOn(uiService, 'updateMenuState');
-
-      spectator.component.toggleMenu();
-      spectator.detectChanges();
-
-      expect(updateSpy).toBeCalledTimes(1);
-      expect(updateSpy).toBeCalledWith(false);
-    });
-  });
 });

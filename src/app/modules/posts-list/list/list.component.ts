@@ -20,7 +20,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
-  displayedColumns: string[] = ['id', 'title', 'body'];
+  displayedColumns: string[] = ['id', 'title', 'body', 'actions'];
   rowData: TableVirtualScrollDataSource<Post> =
     new TableVirtualScrollDataSource<Post>([]);
 
@@ -48,6 +48,12 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  addNewPost(): void {}
+
+  editPost(post: Post): void {}
+
+  deletePost(post: Post): void {}
 
   private onRowSort(): void {
     this.rowData.sort?.sortChange

@@ -7,6 +7,12 @@ cdk-virtual-scroll-viewport {
   margin: 0 auto;
   padding: 60px;
 
+  &__quickSearch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &__content {
     box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),
     0 8px 10px 1px rgba(0,0,0,.14),
