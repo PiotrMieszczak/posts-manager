@@ -10,7 +10,8 @@ import { PostsListQuery } from '../state/posts-list.query';
 import { Post } from '../../../classes';
 import { MatSort, Sort } from '@angular/material/sort';
 import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
-import { Subject, takeUntil } from 'rxjs';
+import { startWith, Subject, switchMap, takeUntil, throttleTime } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
@@ -23,12 +24,16 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
   rowData: TableVirtualScrollDataSource<Post> =
     new TableVirtualScrollDataSource<Post>([]);
 
+  quickSearch: FormGroup;
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private readonly _postsListService: PostsListService,
-    private readonly _postsLisQuery: PostsListQuery
-  ) {}
+    private readonly _postsLisQuery: PostsListQuery,
+    private readonly _fb: FormBuilder
+  ) {
+    this.quickSearch = this.buildForm();
+  }
 
   ngOnInit(): void {
     this.getAllPosts();
@@ -44,21 +49,50 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroy$.complete();
   }
 
-  quickSearch(key: string) {
-    //TODO
-  }
-
   private onRowSort(): void {
-    this.rowData.sort?.sortChange.subscribe((sort: Sort) => {
-      console.log(sort);
-    });
+    this.rowData.sort?.sortChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((sort: Sort) => {
+        this._postsListService.saveSortValue(sort);
+      });
   }
 
   private getAllPosts(): void {
     this._postsListService.getAll().pipe(takeUntil(this.destroy$)).subscribe();
-    this._postsLisQuery
-      .selectAll()
-      .pipe(takeUntil(this.destroy$))
+    this.startSearchSubscribe();
+  }
+
+  private buildForm(): FormGroup {
+    return this._fb.group({
+      searchControl: [''],
+    });
+  }
+
+  private startSearchSubscribe(): void {
+    const searchQuery$ = this.quickSearch
+      .get('searchControl')
+      ?.valueChanges.pipe(
+        startWith(''),
+        throttleTime(300),
+        takeUntil(this.destroy$)
+      );
+    if (!searchQuery$) {
+      return;
+    }
+    searchQuery$
+      .pipe(
+        switchMap((query: string) => {
+          return this._postsLisQuery.selectAll({
+            filterBy: [
+              (entity: Post) =>
+                !!entity.title?.includes(query.toLocaleLowerCase()),
+              (entity: Post) =>
+                !!entity.body?.includes(query.toLocaleLowerCase()),
+            ],
+          });
+        }),
+        takeUntil(this.destroy$)
+      )
       .subscribe((rows) => {
         this.rowData = new TableVirtualScrollDataSource(rows);
       });

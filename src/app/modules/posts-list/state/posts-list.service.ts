@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PostsListStore } from './posts-list.store';
+import { IPostListSort, PostsListStore } from './posts-list.store';
 import { map, Observable, tap } from 'rxjs';
 import { IPost, Post } from '../../../classes';
 import { HttpService } from '../../../http.service';
@@ -37,5 +37,13 @@ export class PostsListService {
 
   delete(postId: string): Observable<unknown> {
     return this._http.delete(`/posts/${postId}`);
+  }
+
+  saveFilterValue(filterQuery: string): void {
+    this.store.update({ filter: filterQuery });
+  }
+
+  saveSortValue(sortQuery: IPostListSort): void {
+    this.store.update({ sort: sortQuery });
   }
 }
