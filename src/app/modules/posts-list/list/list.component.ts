@@ -10,7 +10,14 @@ import { PostsListQuery } from '../state/posts-list.query';
 import { Post } from '../../../classes';
 import { MatSort, Sort } from '@angular/material/sort';
 import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
-import { startWith, Subject, switchMap, takeUntil, throttleTime } from 'rxjs';
+import {
+  debounceTime,
+  startWith,
+  Subject,
+  switchMap,
+  takeUntil,
+  throttleTime,
+} from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -79,7 +86,7 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
       .get('searchControl')
       ?.valueChanges.pipe(
         startWith(''),
-        throttleTime(300),
+        debounceTime(300),
         takeUntil(this.destroy$)
       );
     if (!searchQuery$) {
