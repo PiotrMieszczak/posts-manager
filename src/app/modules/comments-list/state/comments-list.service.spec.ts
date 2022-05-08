@@ -51,7 +51,7 @@ describe('GetData', () => {
   });
 
   it('should get all data', function () {
-    const url = environment.apiUrl + '/comments/1/comments';
+    const url = environment.apiUrl + '/posts/1/comments';
 
     spectator.service.getAll('1').subscribe((res) => {
       expect(res).toEqual(mockCommentData);
