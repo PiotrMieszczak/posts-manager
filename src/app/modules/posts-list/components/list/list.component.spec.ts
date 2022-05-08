@@ -6,6 +6,10 @@ import { PostsListModule } from '../../posts-list.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PostsListStore } from '../state/posts-list.store';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CommentDialogComponent } from '../../../comments-list/dialogs/comment-dialog/post-dialog.component';
+import { Component } from '@angular/core';
+import { of } from 'rxjs';
 
 const mockPostData = [
   {
@@ -33,6 +37,18 @@ const mockPostData = [
     body: 'body 4',
   },
 ];
+
+@Component({
+  selector: 'app-mock',
+  template: '<div>MockDialog</div>',
+})
+class MockAddDialogComponent {
+  open() {
+    return {
+      afterClosed: () => of(mockPostData[0]),
+    };
+  }
+}
 
 describe('ListComponent', () => {
   let spectator: Spectator<ListComponent>;
@@ -72,5 +88,63 @@ describe('ListComponent', () => {
         expect(spectator.component.rowData).toHaveLength(1);
       });
     });
+  });
+});
+
+describe('CommentsListComponent Dialog interactions', () => {
+  let spectator: Spectator<ListComponent>;
+  let postListQuery: PostsListQuery;
+  let postsListService: PostsListService;
+  let postsListStore: PostsListStore;
+  let matDialog: MatDialog;
+
+  const createComponent = createComponentFactory({
+    component: ListComponent,
+    mocks: [MatDialogRef, CommentDialogComponent],
+    providers: [
+      PostsListQuery,
+      PostsListService,
+      PostsListStore,
+      {
+        provide: MatDialog,
+        useClass: MockAddDialogComponent,
+      },
+    ],
+    imports: [PostsListModule, HttpClientTestingModule, RouterTestingModule],
+  });
+
+  beforeEach(() => {
+    spectator = createComponent();
+    postListQuery = spectator.inject(PostsListQuery);
+    postsListService = spectator.inject(PostsListService);
+    postsListStore = spectator.inject(PostsListStore);
+    matDialog = spectator.inject(MatDialog);
+  });
+
+  it('should invoke create method from PostsListService', () => {
+    const dialogSpy = jest.spyOn(postsListService, 'create');
+
+    spectator.component.addNewPost();
+
+    expect(dialogSpy).toHaveBeenCalled();
+    expect(dialogSpy).toHaveBeenCalledWith(mockPostData[0]);
+  });
+
+  it('should invoke create update from PostsListService', () => {
+    const dialogSpy = jest.spyOn(postsListService, 'update');
+
+    spectator.component.editPost(mockPostData[0]);
+
+    expect(dialogSpy).toHaveBeenCalled();
+    expect(dialogSpy).toHaveBeenCalledWith(mockPostData[0]);
+  });
+
+  it('should invoke delete update from PostsListService', () => {
+    const dialogSpy = jest.spyOn(postsListService, 'delete');
+
+    spectator.component.deletePost(mockPostData[0]);
+
+    expect(dialogSpy).toHaveBeenCalled();
+    expect(dialogSpy).toHaveBeenCalledWith(mockPostData[0]);
   });
 });
