@@ -1,5 +1,17 @@
+<div class="container__return">
+  <a class="link" [routerLink]="'/'">
+    <i class="material-icons">arrow_back</i>
+  </a>
+</div>
 <div class="container">
-  <div class="container__postCard"></div>
+  <div *ngIf="viewedPost$ | async as post" class="container__postCard">
+    <mat-card>
+      <mat-card-title>{{ post.title }}</mat-card-title>
+      <mat-card-content>
+        <p>{{ post.body }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
   <div class="container__quickSearch">
     <form [formGroup]="quickSearch">
       <mat-form-field>

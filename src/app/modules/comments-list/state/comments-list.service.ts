@@ -6,7 +6,10 @@ import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import { assertProperties } from '../../../utils/utils';
 import { IComment, Comment } from '../../../classes';
 import { Sort } from '@angular/material/sort';
-import { PostsListService } from '../../posts-list/components/state/posts-list.service';
+import {
+  POST_PROPS,
+  PostsListService,
+} from '../../posts-list/components/state/posts-list.service';
 
 const COMMENT_PROPS = ['postId', 'id', 'name', 'email', 'body'];
 
@@ -15,8 +18,7 @@ export class CommentsListService {
   constructor(
     protected store: CommentsListStore,
     private readonly _http: HttpService,
-    private readonly _snackBar: MatSnackBar,
-    private readonly _postListService: PostsListService
+    private readonly _snackBar: MatSnackBar
   ) {}
 
   getAll(postId: string): Observable<unknown> {
@@ -30,7 +32,8 @@ export class CommentsListService {
         this.store.add(comments.map((comment) => new Comment(comment)))
       ),
       switchMap((comments) => {
-        return this._postListService.getOne(postId).pipe(
+        return this._http.get(`/posts/${postId}`).pipe(
+          filter((post) => assertProperties(POST_PROPS, post)),
           map((post) => {
             this.store.update({
               viewedPost: post,

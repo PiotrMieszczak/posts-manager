@@ -150,9 +150,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
   showComments(post: Post): void {
     this._postsListService.setActive(post);
-    this._router.navigate(['/comments'], {
-      queryParams: { postId: post.id },
-    });
+    this._router.navigate(['comments', post.id]);
   }
 
   private getAllPosts(): void {
@@ -187,12 +185,13 @@ export class ListComponent implements OnInit, OnDestroy {
         switchMap(([sort, query]: any) => {
           return this._postsLisQuery
             .selectAll({
-              filterBy: [
-                (entity: Post) =>
-                  !!entity.title?.includes(query.toLocaleLowerCase()),
-                (entity: Post) =>
-                  !!entity.body?.includes(query.toLocaleLowerCase()),
-              ],
+              filterBy: (entity: Post) =>
+                !!entity.title
+                  ?.toLocaleLowerCase()
+                  .includes(query.toLocaleLowerCase()) ||
+                !!entity.body
+                  ?.toLocaleLowerCase()
+                  .includes(query.toLocaleLowerCase()),
             })
             .pipe(
               map((posts: Post[]) => this._postsListService.sortBy(posts, sort))

@@ -5,6 +5,7 @@ import { CommentsListQuery } from '../../state/comments-list.query';
 import { CommentsListService } from '../../state/comments-list.service';
 import { CommentsListStore } from '../../state/comments-list.store';
 import { CommentsListModule } from '../../comments-list.module';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const mockPostData = [
   {
@@ -39,7 +40,7 @@ describe('ListComponent', () => {
   const createComponent = createComponentFactory({
     component: CommentsListComponent,
     providers: [CommentsListQuery, CommentsListService, CommentsListStore],
-    imports: [CommentsListModule, HttpClientTestingModule],
+    imports: [CommentsListModule, HttpClientTestingModule, RouterTestingModule],
   });
 
   beforeEach(() => {

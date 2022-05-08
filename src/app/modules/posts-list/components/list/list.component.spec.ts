@@ -5,6 +5,7 @@ import { PostsListQuery } from '../state/posts-list.query';
 import { PostsListModule } from '../../posts-list.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PostsListStore } from '../state/posts-list.store';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const mockPostData = [
   {
@@ -42,7 +43,7 @@ describe('ListComponent', () => {
   const createComponent = createComponentFactory({
     component: ListComponent,
     providers: [PostsListQuery, PostsListService, PostsListStore],
-    imports: [PostsListModule, HttpClientTestingModule],
+    imports: [PostsListModule, HttpClientTestingModule, RouterTestingModule],
   });
 
   beforeEach(() => {

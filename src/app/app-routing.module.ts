@@ -10,7 +10,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'comments',
+    path: 'comments/:id',
     loadChildren: () =>
       import('./modules/comments-list/comments-list.module').then(
         (m) => m.CommentsListModule

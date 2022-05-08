@@ -13,8 +13,11 @@ import { Comment, Post } from '../../../../classes';
 import {
   combineLatest,
   debounceTime,
+  EMPTY,
   filter,
   map,
+  Observable,
+  of,
   startWith,
   Subject,
   switchMap,
@@ -38,6 +41,7 @@ export class CommentsListComponent implements OnInit {
     new TableVirtualScrollDataSource<Comment>([]);
   quickSearch: FormGroup;
 
+  viewedPost$: Observable<Post | null> = of(null);
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -49,12 +53,13 @@ export class CommentsListComponent implements OnInit {
     private readonly _router: ActivatedRoute
   ) {
     this.quickSearch = this.buildForm();
+    this.startRouterSub();
   }
 
   ngOnInit(): void {
-    this.startRouterSub();
     this.rowData.sort = this.sort;
     this.startSearchSubscribe();
+    this.getViewedPost();
   }
 
   ngOnDestroy(): void {
@@ -83,9 +88,8 @@ export class CommentsListComponent implements OnInit {
   private startRouterSub(): void {
     this._router.paramMap
       .pipe(
-        map((paramMap) => paramMap.get('postId')),
-        filter(Boolean),
-        takeUntil(this.destroy$)
+        map((paramMap) => paramMap.get('id')),
+        filter(Boolean)
       )
       .subscribe((postId) => {
         this.getAllComments(postId);
@@ -121,26 +125,33 @@ export class CommentsListComponent implements OnInit {
         switchMap(([sort, query]: any) => {
           return this._commentsLisQuery
             .selectAll({
-              filterBy: [
-                (entity: Comment) =>
-                  !!entity.body?.includes(query.toLocaleLowerCase()),
-                (entity: Comment) =>
-                  !!entity.email?.includes(query.toLocaleLowerCase()),
-                (entity: Comment) =>
-                  !!entity.name?.includes(query.toLocaleLowerCase()),
-              ],
+              filterBy: (entity: Comment) =>
+                !!entity.body
+                  ?.toLocaleLowerCase()
+                  .includes(query.toLocaleLowerCase()) ||
+                !!entity.email
+                  ?.toLocaleLowerCase()
+                  .includes(query.toLocaleLowerCase()) ||
+                !!entity.name
+                  ?.toLocaleLowerCase()
+                  .includes(query.toLocaleLowerCase()),
             })
             .pipe(
-              map((posts: Comment[]) =>
-                this._commentsListService.sortBy(posts, sort)
+              map((comments: Comment[]) =>
+                this._commentsListService.sortBy(comments, sort)
               )
             );
         }),
         takeUntil(this.destroy$)
       )
       .subscribe((rows) => {
+        console.log(rows);
         this.rowData = new TableVirtualScrollDataSource(rows);
         this._cdRef.markForCheck();
       });
+  }
+
+  getViewedPost(): void {
+    this.viewedPost$ = this._commentsLisQuery.select('viewedPost');
   }
 }
