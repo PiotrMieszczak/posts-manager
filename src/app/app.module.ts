@@ -4,10 +4,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderModule } from './layout/header/header.module';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { APP_BASE_HREF } from '@angular/common';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,10 +16,10 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     BrowserAnimationsModule,
     HeaderModule,
-    MatSidenavModule,
     AkitaNgDevtools.forRoot(),
+    MatSnackBarModule,
   ],
-  providers: [{ provide: APP_BASE_HREF, useValue: '' }],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

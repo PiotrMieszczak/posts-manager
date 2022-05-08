@@ -13,9 +13,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { PostDialogComponent } from './dialogs/post-dialog/post-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
-  declarations: [ListComponent, PostDialogComponent, PostDialogComponent],
+  declarations: [
+    ListComponent,
+    PostDialogComponent,
+    ConfirmationDialogComponent,
+  ],
   imports: [
     CommonModule,
     PostsListRoutingModule,
@@ -30,6 +36,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    MatSnackBarModule,
   ],
   exports: [ListComponent, PostDialogComponent],
 })

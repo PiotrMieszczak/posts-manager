@@ -4,6 +4,7 @@ import { filter, map, Observable, tap } from 'rxjs';
 import { IPost, Post } from '../../../../classes';
 import { HttpService } from '../../../../http.service';
 import { assertProperties } from '../../../../utils/utils';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const POST_PROPS = ['userId', 'id', 'title', 'body'];
 
@@ -11,7 +12,8 @@ const POST_PROPS = ['userId', 'id', 'title', 'body'];
 export class PostsListService {
   constructor(
     protected store: PostsListStore,
-    private readonly _http: HttpService
+    private readonly _http: HttpService,
+    private readonly _snackBar: MatSnackBar
   ) {}
 
   getAll(): Observable<unknown> {
@@ -35,15 +37,21 @@ export class PostsListService {
   }
 
   create(post: Pick<Post, 'title' | 'body'>): Observable<unknown> {
-    return this._http.post(`/posts`, post);
+    return this._http
+      .post(`/posts`, post)
+      .pipe(tap(() => this.openSnackBar('Create')));
   }
 
-  delete(postId: string): Observable<unknown> {
-    return this._http.delete(`/posts/${postId}`);
+  delete(post: Post): Observable<unknown> {
+    return this._http
+      .delete(`/posts/${post.id}`)
+      .pipe(tap(() => this.openSnackBar('Delete')));
   }
 
   update(post: Post): Observable<unknown> {
-    return this._http.patch(`/posts/${post.id}`, post);
+    return this._http
+      .patch(`/posts/${post.id}`, post)
+      .pipe(tap(() => this.openSnackBar('Update')));
   }
 
   saveFilterValue(filterQuery: string): void {
@@ -52,5 +60,13 @@ export class PostsListService {
 
   saveSortValue(sortQuery: IPostListSort): void {
     this.store.update({ sort: sortQuery });
+  }
+
+  private openSnackBar(actionType: string): void {
+    this._snackBar.open(`${actionType} action successful`, 'OK', {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
   }
 }

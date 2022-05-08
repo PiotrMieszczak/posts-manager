@@ -21,10 +21,11 @@ import {
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from '../../dialogs/post-dialog/post-dialog.component';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 const BASE_DIALOG_CONFIG = {
   minWidth: '30vw',
-  minHeight: '30vh',
+  minHeight: 'fit-content',
   disableClose: true,
 };
 
@@ -104,13 +105,29 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   deletePost(post: Post): void {
-    // TO DO DELETE DIALOG
+    const dialogRef = this._dialog.open(ConfirmationDialogComponent, {
+      ...BASE_DIALOG_CONFIG,
+      data: 'Do you want to delete post?',
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        switchMap(() => {
+          return this._postsListService.delete(post);
+        })
+      )
+      .subscribe(() => {
+        this.getAllPosts();
+      });
   }
 
   private onRowSort(): void {
     this.rowData.sort?.sortChange
       .pipe(takeUntil(this.destroy$))
       .subscribe((sort: Sort) => {
+        console.log(sort);
         this._postsListService.saveSortValue(sort);
       });
   }

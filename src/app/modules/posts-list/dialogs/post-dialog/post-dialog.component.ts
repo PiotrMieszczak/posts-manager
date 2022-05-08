@@ -1,5 +1,11 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
-import { FormBuilder, FormGroup, Validator, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+  Optional,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PostsListService } from '../../components/state/posts-list.service';
 import { DIALOG_ACTION } from '../../enums/post-list.enums';
@@ -11,6 +17,7 @@ import { filter } from 'rxjs';
   selector: 'app-post-dialog',
   templateUrl: './post-dialog.component.html',
   styleUrls: ['./post-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostDialogComponent implements OnInit {
   action = DIALOG_ACTION.ADD;

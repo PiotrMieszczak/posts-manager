@@ -19,5 +19,12 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button color="primary" (click)="savePost()">Save</button>
+  <button
+    mat-button
+    color="primary"
+    [disabled]="form.invalid"
+    (click)="savePost()"
+  >
+    Save
+  </button>
 </mat-dialog-actions>
