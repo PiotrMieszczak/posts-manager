@@ -27,6 +27,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { CommentsListService } from '../../state/comments-list.service';
 import { CommentsListQuery } from '../../state/comments-list.query';
 import { ActivatedRoute } from '@angular/router';
+import { CommentDialogComponent } from '../../dialogs/comment-dialog/post-dialog.component';
+import { PostDialogComponent } from '../../../posts-list/dialogs/post-dialog/post-dialog.component';
+import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog/confirmation-dialog.component';
+
+const BASE_DIALOG_CONFIG = {
+  minWidth: '30vw',
+  minHeight: 'fit-content',
+  disableClose: true,
+};
 
 @Component({
   selector: 'app-comments-list',
@@ -42,6 +51,8 @@ export class CommentsListComponent implements OnInit {
   quickSearch: FormGroup;
 
   viewedPost$: Observable<Post | null> = of(null);
+  postId: string | null = null;
+
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -68,15 +79,65 @@ export class CommentsListComponent implements OnInit {
   }
 
   addComment(): void {
-    // TODO
+    const dialogRef = this._dialog.open(CommentDialogComponent, {
+      ...BASE_DIALOG_CONFIG,
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((res) => !!res),
+        switchMap((comment: Comment) => {
+          return this._commentsListService.create(comment);
+        })
+      )
+      .subscribe(() => {
+        if (this.postId) {
+          this.getAllComments(this.postId);
+        }
+      });
   }
 
   editComment(comment: Comment): void {
-    // TODO
+    const dialogRef = this._dialog.open(CommentDialogComponent, {
+      ...BASE_DIALOG_CONFIG,
+      data: { commentId: comment.id },
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((res) => !!res),
+        switchMap((comment: Comment) => {
+          return this._commentsListService.update(comment);
+        })
+      )
+      .subscribe(() => {
+        if (this.postId) {
+          this.getAllComments(this.postId);
+        }
+      });
   }
 
   deleteComment(comment: Comment): void {
-    // TODO
+    const dialogRef = this._dialog.open(ConfirmationDialogComponent, {
+      ...BASE_DIALOG_CONFIG,
+      data: 'Do you want to delete comment?',
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        switchMap(() => {
+          return this._commentsListService.delete(comment);
+        })
+      )
+      .subscribe(() => {
+        if (this.postId) {
+          this.getAllComments(this.postId);
+        }
+      });
   }
 
   private buildForm(): FormGroup {
@@ -92,6 +153,7 @@ export class CommentsListComponent implements OnInit {
         filter(Boolean)
       )
       .subscribe((postId) => {
+        this.postId = postId;
         this.getAllComments(postId);
       });
   }
@@ -145,7 +207,6 @@ export class CommentsListComponent implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe((rows) => {
-        console.log(rows);
         this.rowData = new TableVirtualScrollDataSource(rows);
         this._cdRef.markForCheck();
       });

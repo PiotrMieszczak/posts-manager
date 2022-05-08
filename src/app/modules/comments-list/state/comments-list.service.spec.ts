@@ -66,7 +66,7 @@ describe('GetData', () => {
   });
 
   describe('CRUD', () => {
-    const mockPost = mockCommentData[0];
+    const mockComment = mockCommentData[0];
 
     it('should get post by id', function () {
       const url = environment.apiUrl + '/posts/1';
@@ -83,60 +83,68 @@ describe('GetData', () => {
       req.flush(mockCommentData);
     });
 
-    // it('should create new comment', function () {
-    //   const url = environment.apiUrl + '/posts';
-    //
-    //   spectator.service
-    //     .create({ title: mockPost.title, body: mockPost.body })
-    //     .subscribe((res) => {
-    //       expect(res).toEqual({
-    //         body: mockPost.body,
-    //         title: mockPost.title,
-    //         id: 2,
-    //       });
-    //     });
-    //
-    //   const req = httpController.expectOne({
-    //     method: 'POST',
-    //     url: `${url}`,
-    //   });
-    //
-    //   req.flush({
-    //     body: mockPost.body,
-    //     title: mockPost.title,
-    //     id: 2,
-    //   });
-    // });
-    //
-    // it('should delete post', function () {
-    //   const url = environment.apiUrl + `/posts/${mockPost.id}`;
-    //
-    //   spectator.service.delete(mockPost).subscribe((res) => {
-    //     expect(res).toEqual({});
-    //   });
-    //
-    //   const req = httpController.expectOne({
-    //     method: 'DELETE',
-    //     url: `${url}`,
-    //   });
-    //
-    //   req.flush({});
-    // });
-    //
-    // it('should update post', function () {
-    //   const url = environment.apiUrl + `/posts/${mockPost.id}`;
-    //
-    //   spectator.service.update(mockPost).subscribe((res) => {
-    //     expect(res).toEqual(mockPost);
-    //   });
-    //
-    //   const req = httpController.expectOne({
-    //     method: 'PATCH',
-    //     url: `${url}`,
-    //   });
-    //
-    //   req.flush(mockPost);
-    // });
+    it('should create new comment', function () {
+      const url = environment.apiUrl + '/posts';
+
+      spectator.service
+        .create({
+          name: mockComment.name,
+          body: mockComment.body,
+          email: mockComment.email,
+          postId: mockComment.postId,
+        })
+        .subscribe((res) => {
+          expect(res).toEqual({
+            body: mockComment.body,
+            name: mockComment.name,
+            postId: mockComment.postId,
+            id: 2,
+          });
+        });
+
+      const req = httpController.expectOne({
+        method: 'POST',
+        url: `${url}`,
+      });
+
+      req.flush({
+        body: mockComment.body,
+        name: mockComment.name,
+        email: mockComment.email,
+        postId: mockComment.postId,
+        id: 2,
+      });
+    });
+
+    it('should delete post', function () {
+      const url = environment.apiUrl + `/comments/${mockComment.id}`;
+
+      spectator.service.delete(mockComment).subscribe((res) => {
+        expect(res).toEqual({});
+      });
+
+      const req = httpController.expectOne({
+        method: 'DELETE',
+        url: `${url}`,
+      });
+
+      req.flush({});
+    });
+
+    it('should update post', function () {
+      const url = environment.apiUrl + `/comments/${mockComment.id}`;
+
+      spectator.service.update(mockComment).subscribe((res) => {
+        expect(res).toEqual(mockComment);
+      });
+
+      const req = httpController.expectOne({
+        method: 'PATCH',
+        url: `${url}`,
+      });
+
+      req.flush(mockComment);
+    });
 
     describe('Sorting', () => {
       describe('Sort by body', () => {

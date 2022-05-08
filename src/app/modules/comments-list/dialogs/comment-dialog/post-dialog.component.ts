@@ -15,8 +15,8 @@ import { CommentsListService } from '../../state/comments-list.service';
 
 @Component({
   selector: 'app-comment-dialog',
-  templateUrl: './post-dialog.component.html',
-  styleUrls: ['./post-dialog.component.scss'],
+  templateUrl: './comment-dialog.component.html',
+  styleUrls: ['./comment-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentDialogComponent implements OnInit {
@@ -26,7 +26,7 @@ export class CommentDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<CommentDialogComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: { postId: number },
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: { commentId: number },
     private readonly _fb: FormBuilder,
     private readonly _commentsListQuery: CommentsListQuery,
     private readonly _commentsListService: CommentsListService
@@ -36,8 +36,8 @@ export class CommentDialogComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data) {
-      this.getPostDataById();
-      this.getEditedPost();
+      this.getCommentDataById();
+      this.getEditedComment();
       this.action = DIALOG_ACTION.EDIT;
     }
   }
@@ -61,16 +61,19 @@ export class CommentDialogComponent implements OnInit {
 
   private buildForm(): FormGroup {
     return this._fb.group({
-      titleControl: ['', Validators.required],
+      nameControl: ['', Validators.required],
       bodyControl: ['', Validators.required],
+      emailControl: ['', [Validators.required, Validators.email]],
     });
   }
 
-  private getPostDataById(): void {
-    this._commentsListService.getOne(this.data.postId.toString()).subscribe();
+  private getCommentDataById(): void {
+    this._commentsListService
+      .getOne(this.data.commentId.toString())
+      .subscribe();
   }
 
-  private getEditedPost(): void {
+  private getEditedComment(): void {
     this._commentsListQuery
       .select('editedComment')
       .pipe(filter(Boolean))

@@ -42,11 +42,11 @@ export class CommentsListService {
     );
   }
 
-  getOne(postId: string): Observable<unknown> {
-    return this._http.get(`/posts/${postId}`).pipe(
+  getOne(commentId: string): Observable<unknown> {
+    return this._http.get(`/comments/${commentId}`).pipe(
       filter((comment) => assertProperties(COMMENT_PROPS, comment)),
       map((comment: IComment) =>
-        this.store.update({ editedPost: new Comment(comment) })
+        this.store.update({ editedComment: new Comment(comment) })
       )
     );
   }
