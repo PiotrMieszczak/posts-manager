@@ -20,6 +20,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci && npm run build --if-present
+
   coverage:
     needs: build
     permissions:
@@ -27,11 +28,13 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: ArtiomTr/jest-coverage-report-action@v2
-      with:
-        github-token: ${{ secrets.SECRET_TOKEN }}
-        
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Coverage report
+        uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          email: ${{ secrets.GITHUB_TOKEN  }}
+
   publish:
     needs: [build, coverage]
     runs-on: ubuntu-latest
