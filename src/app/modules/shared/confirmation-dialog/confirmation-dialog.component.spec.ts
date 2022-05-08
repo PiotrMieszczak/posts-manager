@@ -6,7 +6,7 @@ import {
 import { ConfirmationDialogComponent } from './confirmation-dialog.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { PostDialogComponent } from '../post-dialog/post-dialog.component';
+import { PostDialogComponent } from '../../posts-list/dialogs/post-dialog/post-dialog.component';
 
 describe('PostDialogComponent', () => {
   let spectator: Spectator<ConfirmationDialogComponent>;

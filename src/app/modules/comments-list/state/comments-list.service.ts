@@ -6,10 +6,7 @@ import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import { assertProperties } from '../../../utils/utils';
 import { IComment, Comment } from '../../../classes';
 import { Sort } from '@angular/material/sort';
-import {
-  POST_PROPS,
-  PostsListService,
-} from '../../posts-list/components/state/posts-list.service';
+import { POST_PROPS } from '../../posts-list/components/state/posts-list.service';
 
 const COMMENT_PROPS = ['postId', 'id', 'name', 'email', 'body'];
 

@@ -7,29 +7,29 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PostsListService } from '../../components/state/posts-list.service';
 import { DIALOG_ACTION } from '../../../shared/enums/post-list.enums';
-import { PostsListQuery } from '../../components/state/posts-list.query';
-import { Post } from '../../../../classes';
 import { filter } from 'rxjs';
+import { Comment } from '../../../../classes';
+import { CommentsListQuery } from '../../state/comments-list.query';
+import { CommentsListService } from '../../state/comments-list.service';
 
 @Component({
-  selector: 'app-post-dialog',
+  selector: 'app-comment-dialog',
   templateUrl: './post-dialog.component.html',
   styleUrls: ['./post-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PostDialogComponent implements OnInit {
+export class CommentDialogComponent implements OnInit {
   action = DIALOG_ACTION.ADD;
   form: FormGroup;
-  private _editedPost: Post | null = null;
+  private _editedPost: Comment | null = null;
 
   constructor(
-    public dialogRef: MatDialogRef<PostDialogComponent>,
+    public dialogRef: MatDialogRef<CommentDialogComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: { postId: number },
     private readonly _fb: FormBuilder,
-    private readonly _postListQuery: PostsListQuery,
-    private readonly _postListService: PostsListService
+    private readonly _commentsListQuery: CommentsListQuery,
+    private readonly _commentsListService: CommentsListService
   ) {
     this.form = this.buildForm();
   }
@@ -42,17 +42,19 @@ export class PostDialogComponent implements OnInit {
     }
   }
 
-  savePost(): void {
-    const title = this.form.controls['titleControl'].value;
+  saveComment(): void {
+    const name = this.form.controls['nameControl'].value;
     const body = this.form.controls['bodyControl'].value;
+    const email = this.form.controls['emailControl'].value;
     const dataToSave =
       this.action === DIALOG_ACTION.ADD
-        ? { title, body }
+        ? { name, body, email }
         : {
-            userId: this._editedPost?.userId,
+            postId: this._editedPost?.postId,
             id: this._editedPost?.id,
-            title,
+            name,
             body,
+            email,
           };
     this.dialogRef.close(dataToSave);
   }
@@ -65,23 +67,28 @@ export class PostDialogComponent implements OnInit {
   }
 
   private getPostDataById(): void {
-    this._postListService.getOne(this.data.postId.toString()).subscribe();
+    this._commentsListService.getOne(this.data.postId.toString()).subscribe();
   }
 
   private getEditedPost(): void {
-    this._postListQuery
-      .select('editedPost')
+    this._commentsListQuery
+      .select('editedComment')
       .pipe(filter(Boolean))
-      .subscribe((post) => {
-        this._editedPost = post;
-        this.updateForm(post.title, post.body);
+      .subscribe((comment: Comment) => {
+        this._editedPost = comment;
+        this.updateForm(comment.name, comment.body, comment.email);
       });
   }
 
-  private updateForm(titleData: string | null, bodyData: string | null): void {
+  private updateForm(
+    nameData: string | null,
+    bodyData: string | null,
+    emailData: string | null
+  ): void {
     this.form.setValue({
-      titleControl: titleData,
+      nameControl: nameData,
       bodyControl: bodyData,
+      emailControl: emailData,
     });
   }
 }
