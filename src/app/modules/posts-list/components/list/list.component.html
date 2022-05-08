@@ -10,7 +10,13 @@
   <div class="container__content">
     <div class="content__table">
       <cdk-virtual-scroll-viewport tvsItemSize="48">
-        <table mat-table [dataSource]="rowData" matSort class="table">
+        <table
+          mat-table
+          [dataSource]="rowData"
+          multiTemplateDataRows
+          matSort
+          class="table"
+        >
           <!-- Position Column -->
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
@@ -45,11 +51,38 @@
             </td>
           </ng-container>
 
+          <ng-container matColumnDef="expandedDetail">
+            <td
+              mat-cell
+              *matCellDef="let row"
+              [attr.colspan]="displayedColumns.length"
+            >
+              <app-comments-list
+                [@detailExpand]="
+                  row == activeElement ? 'expanded' : 'collapsed'
+                "
+                [postId]="row.id"
+              ></app-comments-list>
+            </td>
+          </ng-container>
+
           <tr
             mat-header-row
             *matHeaderRowDef="displayedColumns; sticky: true"
           ></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            [class.expanded-row]="activeElement === row"
+            class="element-row"
+            (click)="expandElement(row)"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: ['expandedDetail']"
+            [hidden]="activeElement !== row"
+            [class.hidden-detail]="activeElement !== row"
+          ></tr>
         </table>
       </cdk-virtual-scroll-viewport>
     </div>

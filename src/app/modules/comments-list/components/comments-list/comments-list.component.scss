@@ -1,0 +1,17 @@
+
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 60px;
+
+  &__quickSearch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .table {
+    width: 100%;
+  }
+}

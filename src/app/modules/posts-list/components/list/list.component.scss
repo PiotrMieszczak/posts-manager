@@ -25,13 +25,25 @@ cdk-virtual-scroll-viewport {
     .table {
       width: 100%;
 
-      tr.mat-row {
-        cursor: pointer;
+      tr.hidden-detail {
+        height: 0;
+        min-height: initial;
+      }
 
-        &:hover {
-          background-color: #e2e2e2;
-        }
+      tr.element-row:not(.expanded-row):hover {
+        background-color: #e2e2e2;
+        cursor: pointer;
+      }
+
+      tr.element-row:not(.expanded-row):active {
+        background: #efefef;
+      }
+
+      tr.element-row, /* override mat-row styling */
+      tr.element-row mat-cell {
+        border-bottom-width: 0;
       }
     }
   }
 }
+

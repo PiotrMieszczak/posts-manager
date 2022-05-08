@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
-import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
+import {
+  ActiveState,
+  EntityState,
+  EntityStore,
+  StoreConfig,
+} from '@datorama/akita';
 import { Post } from '../../../../classes';
 
 export interface IPostListSort {
   active: string;
   direction: 'asc' | 'desc' | '';
 }
-export interface PostsListState extends EntityState<Post> {
+export interface PostsListState extends EntityState<Post>, ActiveState {
   filter: string;
   sort: IPostListSort;
   editedPost: Post | null;

@@ -63,14 +63,6 @@ export class PostsListService {
     this.store.update({ sort: sortQuery });
   }
 
-  private openSnackBar(actionType: string): void {
-    this._snackBar.open(`${actionType} action successful`, 'OK', {
-      duration: 3000,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-    });
-  }
-
   sortBy(data: Post[], sort: Sort): Post[] {
     if (sort.active === 'body') {
       return data.sort((a, b) => {
@@ -93,6 +85,18 @@ export class PostsListService {
     return data.sort((a, b) => {
       if (!a.id || !b.id) return 0;
       return sort.direction === 'desc' ? b.id - a.id : a.id - b.id;
+    });
+  }
+
+  setActive(post: Post): void {
+    this.store.setActive(post.id);
+  }
+
+  private openSnackBar(actionType: string): void {
+    this._snackBar.open(`${actionType} action successful`, 'OK', {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
     });
   }
 }

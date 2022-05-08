@@ -62,8 +62,8 @@ describe('ListComponent', () => {
       postsListStore.add(mockPostData);
 
       spectator.detectChanges();
-      // @ts-ignore
 
+      // @ts-ignore
       const input = spectator.component.quickSearch.controls.searchControl;
       input.setValue('title 4');
 

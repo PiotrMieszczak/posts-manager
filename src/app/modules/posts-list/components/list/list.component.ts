@@ -1,5 +1,6 @@
 import {
-  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
@@ -8,13 +9,15 @@ import {
 import { PostsListService } from '../state/posts-list.service';
 import { PostsListQuery } from '../state/posts-list.query';
 import { Post } from '../../../../classes';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 import {
   combineLatest,
   debounceTime,
   filter,
   map,
+  Observable,
+  of,
   startWith,
   Subject,
   switchMap,
@@ -24,6 +27,14 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from '../../dialogs/post-dialog/post-dialog.component';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { MatTableDataSource } from '@angular/material/table';
 
 const BASE_DIALOG_CONFIG = {
   minWidth: '30vw',
@@ -35,6 +46,17 @@ const BASE_DIALOG_CONFIG = {
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 export class ListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
@@ -43,13 +65,15 @@ export class ListComponent implements OnInit, OnDestroy {
     new TableVirtualScrollDataSource<Post>([]);
 
   quickSearch: FormGroup;
+  activeElement: Post | undefined = undefined;
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private readonly _postsListService: PostsListService,
     private readonly _postsLisQuery: PostsListQuery,
     private readonly _fb: FormBuilder,
-    private readonly _dialog: MatDialog
+    private readonly _dialog: MatDialog,
+    private readonly _cdRef: ChangeDetectorRef
   ) {
     this.quickSearch = this.buildForm();
   }
@@ -58,6 +82,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.getAllPosts();
     this.rowData.sort = this.sort;
     this.startSearchSubscribe();
+    this.getActiveElement();
   }
 
   ngOnDestroy(): void {
@@ -121,6 +146,10 @@ export class ListComponent implements OnInit, OnDestroy {
       });
   }
 
+  expandElement(post: Post): void {
+    this._postsListService.setActive(post);
+  }
+
   private getAllPosts(): void {
     this._postsListService.getAll().pipe(takeUntil(this.destroy$)).subscribe();
   }
@@ -168,6 +197,16 @@ export class ListComponent implements OnInit, OnDestroy {
       )
       .subscribe((rows) => {
         this.rowData = new TableVirtualScrollDataSource(rows);
+        this._cdRef.markForCheck();
+      });
+  }
+
+  private getActiveElement(): void {
+    this._postsLisQuery
+      .selectActive()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((post) => {
+        this.activeElement = post;
       });
   }
 }
