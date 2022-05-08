@@ -15,7 +15,6 @@ import { PostDialogComponent } from './dialogs/post-dialog/post-dialog.component
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { CommentsListModule } from '../comments-list/comments-list.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +37,6 @@ import { CommentsListModule } from '../comments-list/comments-list.module';
     MatIconModule,
     MatDialogModule,
     MatSnackBarModule,
-    CommentsListModule,
   ],
   exports: [ListComponent, PostDialogComponent],
 })

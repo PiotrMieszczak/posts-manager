@@ -35,6 +35,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 const BASE_DIALOG_CONFIG = {
   minWidth: '30vw',
@@ -73,7 +74,8 @@ export class ListComponent implements OnInit, OnDestroy {
     private readonly _postsLisQuery: PostsListQuery,
     private readonly _fb: FormBuilder,
     private readonly _dialog: MatDialog,
-    private readonly _cdRef: ChangeDetectorRef
+    private readonly _cdRef: ChangeDetectorRef,
+    private readonly _router: Router
   ) {
     this.quickSearch = this.buildForm();
   }
@@ -146,8 +148,11 @@ export class ListComponent implements OnInit, OnDestroy {
       });
   }
 
-  expandElement(post: Post): void {
+  showComments(post: Post): void {
     this._postsListService.setActive(post);
+    this._router.navigate(['/comments'], {
+      queryParams: { postId: post.id },
+    });
   }
 
   private getAllPosts(): void {

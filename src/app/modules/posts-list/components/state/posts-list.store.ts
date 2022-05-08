@@ -5,15 +5,11 @@ import {
   EntityStore,
   StoreConfig,
 } from '@datorama/akita';
-import { Post } from '../../../../classes';
+import { Post, SortStore } from '../../../../classes';
 
-export interface IPostListSort {
-  active: string;
-  direction: 'asc' | 'desc' | '';
-}
 export interface PostsListState extends EntityState<Post>, ActiveState {
   filter: string;
-  sort: IPostListSort;
+  sort: SortStore;
   editedPost: Post | null;
 }
 

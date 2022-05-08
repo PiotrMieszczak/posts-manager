@@ -3,7 +3,6 @@ export class Post {
   id: number | null;
   title: string | null;
   body: string | null;
-  expanded = false;
 
   constructor(prop: IPost) {
     this.userId = prop.userId;

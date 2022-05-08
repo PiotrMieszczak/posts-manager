@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { IPostListSort, PostsListStore } from './posts-list.store';
+import { PostsListStore } from './posts-list.store';
 import { filter, map, Observable, tap } from 'rxjs';
-import { IPost, Post } from '../../../../classes';
+import { IPost, Post, SortStore } from '../../../../classes';
 import { HttpService } from '../../../../http.service';
 import { assertProperties } from '../../../../utils/utils';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Sort } from '@angular/material/sort';
 
-const POST_PROPS = ['userId', 'id', 'title', 'body'];
+export const POST_PROPS = ['userId', 'id', 'title', 'body'];
 
 @Injectable({ providedIn: 'root' })
 export class PostsListService {
@@ -59,7 +59,7 @@ export class PostsListService {
     this.store.update({ filter: filterQuery });
   }
 
-  saveSortValue(sortQuery: IPostListSort): void {
+  saveSortValue(sortQuery: SortStore): void {
     this.store.update({ sort: sortQuery });
   }
 

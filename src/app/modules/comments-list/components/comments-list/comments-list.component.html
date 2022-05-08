@@ -1,63 +1,71 @@
-<div class="container__quickSearch">
-  <form [formGroup]="quickSearch">
-    <mat-form-field>
-      <input matInput formControlName="searchControl" placeholder="Search" />
-    </mat-form-field>
-  </form>
-  <button mat-raised-button (click)="addComment()">Add new comment</button>
-</div>
-<div class="container__content">
-  <div class="content__table">
-    <table mat-table [dataSource]="rowData" matSort class="table">
-      <!-- Position Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
-        <td mat-cell *matCellDef="let comment">{{ comment.id }}.</td>
-      </ng-container>
+<div class="container">
+  <div class="container__postCard"></div>
+  <div class="container__quickSearch">
+    <form [formGroup]="quickSearch">
+      <mat-form-field>
+        <input matInput formControlName="searchControl" placeholder="Search" />
+      </mat-form-field>
+    </form>
+    <button mat-raised-button (click)="addComment()">Add new comment</button>
+  </div>
+  <div class="container__content">
+    <div class="content__table">
+      <cdk-virtual-scroll-viewport tvsItemSize="48">
+        <table mat-table [dataSource]="rowData" matSort class="table">
+          <!-- Position Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
+            <td mat-cell *matCellDef="let comment">{{ comment.id }}.</td>
+          </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-        <td mat-cell *matCellDef="let comment">{{ comment.name }}</td>
-      </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let comment">{{ comment.name }}</td>
+          </ng-container>
 
-      <!-- Email Column -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-        <td mat-cell *matCellDef="let comment">{{ comment.email }}</td>
-      </ng-container>
+          <!-- Email Column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+            <td mat-cell *matCellDef="let comment">{{ comment.email }}</td>
+          </ng-container>
 
-      <!-- Body Column -->
-      <ng-container matColumnDef="body">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Body</th>
-        <td mat-cell *matCellDef="let comment">{{ comment.body }}</td>
-      </ng-container>
+          <!-- Body Column -->
+          <ng-container matColumnDef="body">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Body</th>
+            <td mat-cell *matCellDef="let comment">{{ comment.body }}</td>
+          </ng-container>
 
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let comment">
-          <div style="display: flex">
-            <button
-              mat-icon-button
-              color="basic"
-              (click)="editComment(comment)"
-            >
-              <mat-icon aria-label="Edit comment icon">edit</mat-icon>
-            </button>
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let comment">
+              <div style="display: flex">
+                <button
+                  mat-icon-button
+                  color="basic"
+                  (click)="editComment(comment)"
+                >
+                  <mat-icon aria-label="Edit comment icon">edit</mat-icon>
+                </button>
 
-            <button
-              mat-icon-button
-              color="warn"
-              (click)="deleteComment(comment)"
-            >
-              <mat-icon aria-label="Delete comment icon">delete</mat-icon>
-            </button>
-          </div>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="deleteComment(comment)"
+                >
+                  <mat-icon aria-label="Delete comment icon">delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </cdk-virtual-scroll-viewport>
+    </div>
   </div>
 </div>

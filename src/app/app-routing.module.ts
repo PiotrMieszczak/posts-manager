@@ -9,6 +9,13 @@ const routes: Routes = [
         (m) => m.PostsListModule
       ),
   },
+  {
+    path: 'comments',
+    loadChildren: () =>
+      import('./modules/comments-list/comments-list.module').then(
+        (m) => m.CommentsListModule
+      ),
+  },
 ];
 
 @NgModule({

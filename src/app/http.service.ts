@@ -16,7 +16,7 @@ export class HttpService {
     return this.http.get(environment.apiUrl + url);
   }
 
-  public patch(url: string, payload: Post): Observable<any> {
+  public patch(url: string, payload: object): Observable<any> {
     return this.http.patch(
       environment.apiUrl + url,
       JSON.stringify(payload),

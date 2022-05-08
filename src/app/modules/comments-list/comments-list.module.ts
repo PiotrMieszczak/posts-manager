@@ -12,9 +12,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CommentListRouteModule } from './comments-list-routing.module';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
-  declarations: [CommentsListComponent, CommentsListComponent],
+  declarations: [CommentsListComponent],
   imports: [
     CommonModule,
     MatTableModule,
@@ -29,6 +31,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatIconModule,
     MatDialogModule,
     MatSnackBarModule,
+    CommentListRouteModule,
+    MatCardModule,
   ],
   exports: [CommentsListComponent],
 })

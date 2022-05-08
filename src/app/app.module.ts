@@ -7,6 +7,7 @@ import { HeaderModule } from './layout/header/header.module';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CommentsListModule } from './modules/comments-list/comments-list.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     HeaderModule,
     AkitaNgDevtools.forRoot(),
     MatSnackBarModule,
+    CommentsListModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
