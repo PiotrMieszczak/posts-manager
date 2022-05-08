@@ -51,7 +51,7 @@ describe('GetData', () => {
   });
 
   it('should get all data', function () {
-    const url = environment.apiUrl + '/posts/1/comments';
+    const url = environment.apiUrl + '/comments/1/comments';
 
     spectator.service.getAll('1').subscribe((res) => {
       expect(res).toEqual(mockCommentData);
@@ -69,7 +69,7 @@ describe('GetData', () => {
     const mockComment = mockCommentData[0];
 
     it('should get post by id', function () {
-      const url = environment.apiUrl + '/posts/1';
+      const url = environment.apiUrl + '/comments/1';
 
       spectator.service.getOne('1').subscribe((res) => {
         expect(res).toEqual(mockCommentData);
@@ -84,7 +84,7 @@ describe('GetData', () => {
     });
 
     it('should create new comment', function () {
-      const url = environment.apiUrl + '/posts';
+      const url = environment.apiUrl + '/comments';
 
       spectator.service
         .create({
