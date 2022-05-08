@@ -5,6 +5,7 @@ import { IPost, Post } from '../../../../classes';
 import { HttpService } from '../../../../http.service';
 import { assertProperties } from '../../../../utils/utils';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Sort } from '@angular/material/sort';
 
 const POST_PROPS = ['userId', 'id', 'title', 'body'];
 
@@ -67,6 +68,31 @@ export class PostsListService {
       duration: 3000,
       horizontalPosition: 'right',
       verticalPosition: 'top',
+    });
+  }
+
+  sortBy(data: Post[], sort: Sort): Post[] {
+    if (sort.active === 'body') {
+      return data.sort((a, b) => {
+        if (!a.body || !b.body) return 0;
+        return sort.direction === 'desc'
+          ? b.body.localeCompare(a.body)
+          : a.body.localeCompare(b.body);
+      });
+    }
+
+    if (sort.active === 'title') {
+      return data.sort((a, b) => {
+        if (!a.title || !b.title) return 0;
+        return sort.direction === 'desc'
+          ? b.title.localeCompare(a.title)
+          : a.title.localeCompare(b.title);
+      });
+    }
+
+    return data.sort((a, b) => {
+      if (!a.id || !b.id) return 0;
+      return sort.direction === 'desc' ? b.id - a.id : a.id - b.id;
     });
   }
 }

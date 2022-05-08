@@ -11,8 +11,10 @@ import { Post } from '../../../../classes';
 import { MatSort, Sort } from '@angular/material/sort';
 import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 import {
+  combineLatest,
   debounceTime,
   filter,
+  map,
   startWith,
   Subject,
   switchMap,
@@ -34,7 +36,7 @@ const BASE_DIALOG_CONFIG = {
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
   displayedColumns: string[] = ['id', 'title', 'body', 'actions'];
   rowData: TableVirtualScrollDataSource<Post> =
@@ -54,12 +56,8 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.getAllPosts();
-    this.startSearchSubscribe();
-  }
-
-  ngAfterViewInit(): void {
     this.rowData.sort = this.sort;
-    this.onRowSort();
+    this.startSearchSubscribe();
   }
 
   ngOnDestroy(): void {
@@ -123,15 +121,6 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  private onRowSort(): void {
-    this.rowData.sort?.sortChange
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((sort: Sort) => {
-        console.log(sort);
-        this._postsListService.saveSortValue(sort);
-      });
-  }
-
   private getAllPosts(): void {
     this._postsListService.getAll().pipe(takeUntil(this.destroy$)).subscribe();
   }
@@ -150,20 +139,30 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
         debounceTime(300),
         takeUntil(this.destroy$)
       );
+
+    const sortQuery$ = this.rowData.sort?.sortChange.pipe(
+      startWith(this._postsLisQuery.getValue().sort),
+      takeUntil(this.destroy$)
+    );
     if (!searchQuery$) {
       return;
     }
-    searchQuery$
+
+    combineLatest([sortQuery$, searchQuery$])
       .pipe(
-        switchMap((query: string) => {
-          return this._postsLisQuery.selectAll({
-            filterBy: [
-              (entity: Post) =>
-                !!entity.title?.includes(query.toLocaleLowerCase()),
-              (entity: Post) =>
-                !!entity.body?.includes(query.toLocaleLowerCase()),
-            ],
-          });
+        switchMap(([sort, query]: any) => {
+          return this._postsLisQuery
+            .selectAll({
+              filterBy: [
+                (entity: Post) =>
+                  !!entity.title?.includes(query.toLocaleLowerCase()),
+                (entity: Post) =>
+                  !!entity.body?.includes(query.toLocaleLowerCase()),
+              ],
+            })
+            .pipe(
+              map((posts: Post[]) => this._postsListService.sortBy(posts, sort))
+            );
         }),
         takeUntil(this.destroy$)
       )
