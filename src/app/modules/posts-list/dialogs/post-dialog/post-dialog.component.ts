@@ -42,10 +42,6 @@ export class PostDialogComponent implements OnInit {
     }
   }
 
-  getPostDataById(): void {
-    this._postListService.getOne(this.data.postId.toString()).subscribe();
-  }
-
   savePost(): void {
     const title = this.form.controls['titleControl'].value;
     const body = this.form.controls['bodyControl'].value;
@@ -66,6 +62,10 @@ export class PostDialogComponent implements OnInit {
       titleControl: ['', Validators.required],
       bodyControl: ['', Validators.required],
     });
+  }
+
+  private getPostDataById(): void {
+    this._postListService.getOne(this.data.postId.toString()).subscribe();
   }
 
   private getEditedPost(): void {

@@ -3,6 +3,13 @@
   <p *ngIf="message">{{ message }}</p>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <button mat-button color="primary" (click)="makeAction()">Yes</button>
+  <button #closeButtonNegative mat-button mat-dialog-close>No</button>
+  <button
+    #closeButtonPositive
+    mat-button
+    color="primary"
+    (click)="makeAction()"
+  >
+    Yes
+  </button>
 </mat-dialog-actions>
