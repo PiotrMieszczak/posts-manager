@@ -123,28 +123,34 @@ describe('CommentsListComponent Dialog interactions', () => {
 
   it('should invoke create method from PostsListService', () => {
     const dialogSpy = jest.spyOn(postsListService, 'create');
+    const getAllSpy = jest.spyOn(postsListService, 'getAll');
 
     spectator.component.addNewPost();
 
     expect(dialogSpy).toHaveBeenCalled();
+    expect(getAllSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalledWith(mockPostData[0]);
   });
 
   it('should invoke create update from PostsListService', () => {
     const dialogSpy = jest.spyOn(postsListService, 'update');
+    const getAllSpy = jest.spyOn(postsListService, 'getAll');
 
     spectator.component.editPost(mockPostData[0]);
 
     expect(dialogSpy).toHaveBeenCalled();
+    expect(getAllSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalledWith(mockPostData[0]);
   });
 
   it('should invoke delete update from PostsListService', () => {
     const dialogSpy = jest.spyOn(postsListService, 'delete');
+    const getAllSpy = jest.spyOn(postsListService, 'getAll');
 
     spectator.component.deletePost(mockPostData[0]);
 
     expect(dialogSpy).toHaveBeenCalled();
+    expect(getAllSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalledWith(mockPostData[0]);
   });
 });

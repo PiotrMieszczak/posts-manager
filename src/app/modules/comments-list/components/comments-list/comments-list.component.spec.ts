@@ -10,6 +10,7 @@ import { CommentDialogComponent } from '../../dialogs/comment-dialog/post-dialog
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Component } from '@angular/core';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mock',
@@ -52,6 +53,7 @@ describe('CommentsListComponent', () => {
   let commentsListQuery: CommentsListQuery;
   let commentsListService: CommentsListService;
   let commentsListStore: CommentsListStore;
+  let router: Router;
 
   const createComponent = createComponentFactory({
     component: CommentsListComponent,
@@ -91,7 +93,7 @@ describe('CommentsListComponent', () => {
 describe('CommentsListComponent Dialog interactions', () => {
   let spectator: Spectator<CommentsListComponent>;
   let commentsListService: CommentsListService;
-  let matDialog: MatDialog;
+  let dialog: MatDialog;
 
   const createComponent = createComponentFactory({
     component: CommentsListComponent,
@@ -111,36 +113,48 @@ describe('CommentsListComponent Dialog interactions', () => {
   beforeEach(() => {
     spectator = createComponent();
     commentsListService = spectator.inject(CommentsListService);
-    matDialog = spectator.inject(MatDialog);
+    dialog = spectator.inject(MatDialog);
   });
 
   it('should invoke create method from CommentsListService', () => {
     spectator.component.postId = '1';
-    const dialogSpy = jest.spyOn(commentsListService, 'create');
+    const dialogSpy = jest
+      .spyOn(commentsListService, 'create')
+      .mockReturnValue(of(mockPostData[0]));
+    const getAllSpy = jest.spyOn(commentsListService, 'getAll');
 
     spectator.component.addComment();
 
     expect(dialogSpy).toHaveBeenCalled();
+    expect(getAllSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalledWith(mockPostData[0]);
   });
 
   it('should invoke create update from CommentsListService', () => {
     spectator.component.postId = '1';
-    const dialogSpy = jest.spyOn(commentsListService, 'update');
+    const dialogSpy = jest
+      .spyOn(commentsListService, 'update')
+      .mockReturnValue(of(mockPostData[0]));
+    const getAllSpy = jest.spyOn(commentsListService, 'getAll');
 
     spectator.component.editComment(mockPostData[0]);
 
     expect(dialogSpy).toHaveBeenCalled();
+    expect(getAllSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalledWith(mockPostData[0]);
   });
 
   it('should invoke delete update from CommentsListService', () => {
     spectator.component.postId = '1';
-    const dialogSpy = jest.spyOn(commentsListService, 'delete');
+    const dialogSpy = jest
+      .spyOn(commentsListService, 'delete')
+      .mockReturnValue(of(mockPostData[0]));
+    const getAllSpy = jest.spyOn(commentsListService, 'getAll');
 
     spectator.component.deleteComment(mockPostData[0]);
 
     expect(dialogSpy).toHaveBeenCalled();
+    expect(getAllSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalledWith(mockPostData[0]);
   });
 });
