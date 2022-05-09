@@ -122,7 +122,9 @@ describe('CommentsListComponent Dialog interactions', () => {
   });
 
   it('should invoke create method from PostsListService', () => {
-    const dialogSpy = jest.spyOn(postsListService, 'create');
+    const dialogSpy = jest
+      .spyOn(postsListService, 'create')
+      .mockReturnValue(of(mockPostData[0]));
     const getAllSpy = jest.spyOn(postsListService, 'getAll');
 
     spectator.component.addNewPost();
@@ -133,7 +135,9 @@ describe('CommentsListComponent Dialog interactions', () => {
   });
 
   it('should invoke create update from PostsListService', () => {
-    const dialogSpy = jest.spyOn(postsListService, 'update');
+    const dialogSpy = jest
+      .spyOn(postsListService, 'update')
+      .mockReturnValue(of(mockPostData[0]));
     const getAllSpy = jest.spyOn(postsListService, 'getAll');
 
     spectator.component.editPost(mockPostData[0]);
@@ -144,7 +148,9 @@ describe('CommentsListComponent Dialog interactions', () => {
   });
 
   it('should invoke delete update from PostsListService', () => {
-    const dialogSpy = jest.spyOn(postsListService, 'delete');
+    const dialogSpy = jest
+      .spyOn(postsListService, 'delete')
+      .mockReturnValue(of(mockPostData[0]));
     const getAllSpy = jest.spyOn(postsListService, 'getAll');
 
     spectator.component.deletePost(mockPostData[0]);
