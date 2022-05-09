@@ -23,13 +23,13 @@
             <td mat-cell *matCellDef="let post">{{ post.id }}.</td>
           </ng-container>
 
-          <!-- Name Column -->
+          <!-- Title Column -->
           <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
             <td mat-cell *matCellDef="let post">{{ post.title }}</td>
           </ng-container>
 
-          <!-- Weight Column -->
+          <!-- Body Column -->
           <ng-container matColumnDef="body">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Body</th>
             <td mat-cell *matCellDef="let post">{{ post.body }}</td>
@@ -40,11 +40,29 @@
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let post">
               <div style="display: flex">
-                <button mat-icon-button color="basic" (click)="editPost(post)">
+                <button
+                  mat-icon-button
+                  (click)="showComments(post)"
+                  matTooltip="Show comments"
+                >
+                  <mat-icon aria-label="expand more icon">visibility</mat-icon>
+                </button>
+
+                <button
+                  mat-icon-button
+                  color="basic"
+                  (click)="editPost(post)"
+                  matTooltip="Edit post"
+                >
                   <mat-icon aria-label="Edit post icon">edit</mat-icon>
                 </button>
 
-                <button mat-icon-button color="warn" (click)="deletePost(post)">
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="deletePost(post)"
+                  matTooltip="Delete post"
+                >
                   <mat-icon aria-label="Delete post icon">delete</mat-icon>
                 </button>
               </div>
@@ -59,7 +77,6 @@
             *matRowDef="let row; columns: displayedColumns"
             [class.expanded-row]="activeElement === row"
             class="element-row"
-            (click)="showComments(row)"
           ></tr>
         </table>
       </cdk-virtual-scroll-viewport>

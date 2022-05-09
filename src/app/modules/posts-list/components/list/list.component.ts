@@ -16,8 +16,6 @@ import {
   debounceTime,
   filter,
   map,
-  Observable,
-  of,
   startWith,
   Subject,
   switchMap,
@@ -34,7 +32,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 
 const BASE_DIALOG_CONFIG = {
