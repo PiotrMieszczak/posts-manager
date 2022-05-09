@@ -1,27 +1,81 @@
-# PostsManager
+<div id="top"></div>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
+[![LinkedIn][linkedin-shield]][https://www.linkedin.com/in/piotr-mieszczak/]
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png" alt="Logo" width="80" 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+  <h3 align="center">Post Manager</h3>
 
-## Build
+  <p align="center">
+    Project is hosted on Heroku server
+    <br />
+    <a href="https://posts-manager-prod.herokuapp.com/posts-list">View Demo</a>
+  </p>
+</div>
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+[![Posts Manager][product-screenshot]](https://imgur.com/a/ZWLWre3)
 
-## Running end-to-end tests
+Simple project using Angular and fake server. 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+### Built With
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+* [Angular](https://angular.io/)
+* [Docker](https://www.docker.com/)
+* [Angular Material](https://material.angular.io/)
+* [Spectator](https://ngneat.github.io/spectator/)
+* [Akita](https://datorama.github.io/akita/)
+* [Jest](https://jestjs.io/)
+* [{JSON} Placeholder](https://jsonplaceholder.typicode.com/)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- GETTING STARTED -->
+
+### Installation
+
+1. Clone the repo
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Run start command `config.js`
+   ```sh
+   npm run start
+   ```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+<!-- ROADMAP -->
+## Roadmap
+
+- [] Fix github action - jest coverage raport
+- [] Improve unit tests
+- [] Add e2e tests
+- [] Add custom backend server
+- [ ] Migrate project to NX
+- [ ] Simplify lists components
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- CONTACT -->
+## Contact
+
+Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+
+Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
