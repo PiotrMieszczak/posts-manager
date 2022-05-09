@@ -26,6 +26,7 @@ Simple project using Angular and fake server.
 * [Akita](https://datorama.github.io/akita/)
 * [Jest](https://jestjs.io/)
 * [{JSON} Placeholder](https://jsonplaceholder.typicode.com/)
+* [GitHub Actions](https://github.com/features/actions)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
